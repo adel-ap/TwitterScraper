@@ -25,7 +25,51 @@ def print_graph(graph, ver2usr):
 	print '-' * 100
 
 def create_graph(opener, username, max_depth):
-	pass
+	##graph = [[]]
+	edges = []
+
+	usr_info = funcs.get_name_info(opener, username)
+	usr2ver = {usr_info: 0}
+	ver2usr = [str(usr_info[0])]
+	bfs = [(usr_info, 0)]
+
+	while len(bfs):
+		user = bfs[0][0]
+		depth = bfs[0][1]
+		del bfs[0]
+
+		if depth >= max_depth:
+			continue
+
+
+		followings = funcs.get_followings(opener, user[0])
+		followers  = funcs.get_followers(opener, user[0])
+
+		for f in followings:
+			if not f in usr2ver:
+				usr2ver[f] = len(usr2ver)
+				ver2usr.append(str(f[0]))
+				##graph.append([])
+
+			bfs.append((f, depth + 1))
+			##graph[usr2ver[user]].append(usr2ver[f])
+			edges.append((usr2ver[user], usr2ver[f]))
+
+		for f in followers:
+			if not f in usr2ver:
+				usr2ver[f] = len(usr2ver)
+				ver2usr.append(str(f[0]))
+				##graph.append([])
+
+			bfs.append((f, depth + 1))
+			##graph[usr2ver[f]].append(usr2ver[user])
+			edges.append((usr2ver[f], usr2ver[user]))
+
+		##print_graph(graph, ver2usr)
+		#graph_drawer.draw(edges, ver2usr, [])
+
+
+	return edges, ver2usr
 
 
 def run_scraper(username, max_depth=2):
