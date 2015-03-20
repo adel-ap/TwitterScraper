@@ -27,7 +27,7 @@ def tweet_to_str(tweet_contents):
 
 	return tweet_contents
 
-def analyse_tweet(tweet):
+def analyse_tweets(tweet):
 	pass
 
 def get_tweets(opener, username):
